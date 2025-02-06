@@ -4,20 +4,32 @@ import { use, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { C } from 'vitest/dist/chunks/reporters.6vxQttCV';
 import { Accordion, AppShell, Burger, List, MantineProvider } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { theme } from './theme';
 
 export default function App() {
   const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure();
   //List of the data
-  const [idMap, setIdMap] = useState<any>(null);
+  const [idMap, setIdMap] = useLocalStorage({
+    key: 'idMap',
+    defaultValue: null,
+  });
   //List for the routes
-  const [urlList, setUrlList] = useState<any>(null);
+  const [urlList, setUrlList] = useLocalStorage({
+    key: 'urlList',
+    defaultValue: null,
+  });
   //List for the nested routes show, the navbar looks like a tree
-  const [seoRouteMap, setSeoRouteMap] = useState<any>(null);
+  const [seoRouteMap, setSeoRouteMap] = useLocalStorage({
+    key: 'seoRouteMap',
+    defaultValue: {},
+  });
   //First render
-  const [firstRender, setFirstRender] = useState(true);
+  const [firstRender, setFirstRender] = useLocalStorage({
+    key: 'firstRender',
+    defaultValue: true,
+  });
 
   const parseRoutes = (routes: any) => {
     const tree = {};
@@ -118,7 +130,7 @@ export default function App() {
   // Function to get the label from the idMap based on the id
   const getLabelForId = (id: string) => {
     if (idMap && idMap[id]) {
-      return idMap[id].label || 'No label found';
+      return (idMap[id] as { label: string }).label || 'No label found';
     }
     return 'Label not available';
   };
