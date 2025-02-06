@@ -171,6 +171,14 @@ export default function App() {
                 />
               ))}
             <Route path="/" element={<Navigate to={'/startseite/'} />} />
+            <Route
+              path="*"
+              element={
+                <div>
+                  <h1>Page not found</h1>
+                </div>
+              }
+            />
           </Routes>
         </AppShell.Main>
       </AppShell>
