@@ -45,7 +45,7 @@ export default function App() {
         'https://partner-navigationservice.e-spirit.cloud/navigation/preview.20eb4e8b-19a2-496a-b151-3317cd7dacd9?language=de_DE&format=caas'
       );
       const jsonData = await response.json();
-
+      console.log('Data fetched:', jsonData);
       setData(jsonData);
       if (jsonData && jsonData.seoRouteMap) {
         setUrlList(jsonData.seoRouteMap);
@@ -134,7 +134,16 @@ export default function App() {
           <Routes>
             {urlList &&
               Object.entries(urlList).map(([url, value]: [string, any]) => (
-                <Route key={value} path={url} element={<div>{url}</div>} />
+                <Route
+                  key={value}
+                  path={url}
+                  element={
+                    <div>
+                      <h1>Url: {url}</h1>
+                      <h1>Value: {value}</h1>
+                    </div>
+                  }
+                />
               ))}
           </Routes>
         </AppShell.Main>
@@ -143,4 +152,4 @@ export default function App() {
   );
 }
 
-const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
