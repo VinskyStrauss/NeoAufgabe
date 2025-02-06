@@ -170,7 +170,7 @@ export default function App() {
                   }
                 />
               ))}
-            <Route path="*" element={<Navigate to={'/startseite/'} />} />
+            <Route path="/" element={<Navigate to={'/startseite/'} />} />
           </Routes>
         </AppShell.Main>
       </AppShell>
