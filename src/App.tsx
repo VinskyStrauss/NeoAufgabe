@@ -1,7 +1,8 @@
 import '@mantine/core/styles.css';
 
 import { useEffect, useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { C } from 'vitest/dist/chunks/reporters.6vxQttCV';
 import { Accordion, AppShell, Burger, List, MantineProvider } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { theme } from './theme';
@@ -10,7 +11,7 @@ export default function App() {
   const navigate = useNavigate();
   const [opened, { toggle }] = useDisclosure();
   //List of the data
-  const [data, setData] = useState<any>(null);
+  const [idMap, setIdMap] = useState<any>(null);
   //List for the routes
   const [urlList, setUrlList] = useState<any>(null);
   //List for the nested routes show, the navbar looks like a tree
@@ -46,7 +47,10 @@ export default function App() {
       );
       const jsonData = await response.json();
       console.log('Data fetched:', jsonData);
-      setData(jsonData);
+      if (jsonData && jsonData.idMap) {
+        console.log('IdMap:', jsonData.idMap);
+        setIdMap(jsonData.idMap);
+      }
       if (jsonData && jsonData.seoRouteMap) {
         setUrlList(jsonData.seoRouteMap);
         const nestedRoutes = parseRoutes(jsonData.seoRouteMap);
@@ -102,7 +106,7 @@ export default function App() {
             const fullPath = value.path.startsWith('/') ? value.path : `/${value.path}`;
             navigate(fullPath);
           }}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', marginTop: 10 }}
         >
           {capitalizeFirstLetter(key)}
         </List.Item>
@@ -145,6 +149,7 @@ export default function App() {
                   }
                 />
               ))}
+            <Route path="*" element={<Navigate to={'/startseite/'} />} />
           </Routes>
         </AppShell.Main>
       </AppShell>
