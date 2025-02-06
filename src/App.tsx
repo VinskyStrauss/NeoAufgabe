@@ -22,21 +22,22 @@ export default function App() {
   const parseRoutes = (routes: any) => {
     const tree = {};
 
+    //Make a tree based on the input
     Object.keys(routes).forEach((path) => {
-      const parts = path.split('/').filter(Boolean);
-      let current: any = tree;
+      const parts = path.split('/').filter(Boolean); //Split the path and remove empty strings
+      let current: any = tree; //Start from the root of the tree
 
       parts.forEach((part, index) => {
         if (!current[part]) {
-          current[part] = { children: {} };
+          current[part] = { children: {} }; //If the part does not exist, create it
         }
         if (index === parts.length - 1) {
-          current[part].path = path;
+          current[part].path = path; //If it is the last part, add the path
         }
-        current = current[part].children;
+        current = current[part].children; //Move down to the next level
       });
     });
-
+    //Return the tree
     return tree;
   };
 
