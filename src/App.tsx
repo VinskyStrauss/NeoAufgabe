@@ -1,6 +1,6 @@
 import '@mantine/core/styles.css';
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { C } from 'vitest/dist/chunks/reporters.6vxQttCV';
 import { Accordion, AppShell, Burger, List, MantineProvider } from '@mantine/core';
@@ -114,6 +114,13 @@ export default function App() {
     });
   };
 
+  // Function to get the label from the idMap based on the id
+  const getLabelForId = (id: string) => {
+    if (idMap && idMap[id]) {
+      return idMap[id].label || 'No label found';
+    }
+    return 'Label not available';
+  };
   return (
     <MantineProvider theme={theme}>
       <AppShell
@@ -127,7 +134,7 @@ export default function App() {
       >
         <AppShell.Header>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <div>NeoAufgabe</div>
+          <h2>NeoAufgabe</h2>
         </AppShell.Header>
 
         <AppShell.Navbar p="md">
@@ -145,6 +152,7 @@ export default function App() {
                     <div>
                       <h1>Url: {url}</h1>
                       <h1>Value: {value}</h1>
+                      <h2>Label: {getLabelForId(value)}</h2> {/* Fetch the label */}
                     </div>
                   }
                 />
